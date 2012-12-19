@@ -42,9 +42,9 @@ public class EclDirect {
     private String serverPort;
     private String jobName;
     private String eclccInstallDir;
-    private String includeML = false;
+    private String includeML = "false";
     private String mlPath;
-    private String includeSALT = false;
+    private String includeSALT = "false";
     private String SALTPath;
     private String saltLib;
     private String wuid;
