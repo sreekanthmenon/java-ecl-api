@@ -123,7 +123,7 @@ public class ECLSoap {
     }
 
     public void setOutputName(String outputName) {
-        this.outputName = outputName;
+        this.outputName = outputName.replaceAll("[^A-Za-z0-9]", "");
     }
 
     
