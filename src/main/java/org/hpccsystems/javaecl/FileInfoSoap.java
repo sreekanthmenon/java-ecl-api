@@ -43,7 +43,7 @@ public class FileInfoSoap {
 						"<FileSizeTo></FileSizeTo>" +
 						"<FirstN></FirstN>" +
 						"<FirstNType></FirstNType>" +
-						"<PageSize></PageSize>" +
+						"<PageSize>1000000000000</PageSize>" +
 						"<PageStartFrom></PageStartFrom>" +
 						"<Sortby></Sortby>" +
 						"<Descending></Descending>" +
