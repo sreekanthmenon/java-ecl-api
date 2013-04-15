@@ -164,11 +164,17 @@ public class SaltHygieneReport implements EclCommand {
         //test the below line of code
         if(this.outputCleanedDataset){
         	//ecl += "OUTPUT(" + saltLib + ".specificities(" + this.datasetName + ").input_file, NAMED('" + this.datasetName +"_CleanedData'));";
-        	ecl += this.datasetName + "_CleanedData := OUTPUT(" + saltLib + ".specificities(" + inDataset + ").input_file,, '~SPOONFILES::" + this.datasetName + "_CleanedData', OVERWRITE);\r\n";
-        	ecl += this.datasetName + "_CleanedData;\r\n";
+        	//ecl += this.datasetName + "_CleanedData := OUTPUT(" + saltLib + ".specificities(" + inDataset + ").input_file,, '~SPOONFILES::" + this.datasetName + "_CleanedData', OVERWRITE);\r\n";
+        	//ecl += "output(" + this.datasetName + "_CleanedData ,NAMED('CleanedData'));\r\n";
         	
         	//ecl += "OUTPUT(" + saltLib + ".specificities(" + this.datasetName + ").input_file,THOR);\r\n";
         	
+        	//persist method
+        	//ecl += this.datasetName + "_CleanedData := OUTPUT(" + saltLib + ".specificities(" + inDataset + ").input_file,NAMED('CleanedData')) : PERSIST( '~SPOONFILES::" + this.datasetName + "_CleanedData');\r\n";
+        	//ecl += this.datasetName + "_CleanedData;\r\n";
+        	
+        	ecl += this.datasetName + "_CleanedData := " + saltLib + ".specificities(" + inDataset + ").input_file : PERSIST( '~SPOONFILES::" + this.datasetName + "_CleanedData');\r\n";
+        	ecl += "output(CHOOSEN(" + this.datasetName + "_CleanedData,100),NAMED('CleanedData'));\r\n";
         }
         
         if(includeSrcOutliers){
