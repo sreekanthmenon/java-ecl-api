@@ -233,7 +233,7 @@ public class Output implements EclCommand {
             ecl += "OUTPUT( " + this.recordset;
             if(this.thor.equals("No")){
                 if(!this.outputFormat.equals("")){
-                    ecl += "," + this.outputFormat;
+                    ecl += ",{" + this.outputFormat + "}";
                 }
                 if(this.outputType.equals("File")){
                     if(this.outputFormat.equals("")){

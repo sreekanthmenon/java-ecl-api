@@ -24,10 +24,14 @@ public class FileInfoSoap {
 		
 	private String serverHost;
 	private int serverPort;
+	private String user;
+	private String pass;
 	
-	public FileInfoSoap(String serverHost,int serverPort){
+	public FileInfoSoap(String serverHost,int serverPort,String user, String pass){
 		this.serverHost = serverHost;
 		this.serverPort = serverPort;
+		this.user=user;
+		this.pass=pass;
 	}
 
 	public String buildSoapEnv (String fileName){
@@ -117,6 +121,8 @@ public class FileInfoSoap {
 		
 		soap.setHostname(serverHost);
 		soap.setPort(this.serverPort);
+		soap.setUser(user);
+		soap.setPass(pass);
 		
 		String path = "/WsDfu/DFUQuery";
         InputStream is = soap.doSoap(buildSoapEnv(""), path);
@@ -146,6 +152,8 @@ public class FileInfoSoap {
 		
 		soap.setHostname(serverHost);
 		soap.setPort(this.serverPort);
+		soap.setUser(user);
+		soap.setPass(pass);
 		
 		String path = "/WsDfu/DFUDefFile?ver_=1.2";
 		
@@ -267,6 +275,8 @@ public class FileInfoSoap {
 		
 		soap.setHostname(serverHost);
 		soap.setPort(this.serverPort);
+		soap.setUser(user);
+		soap.setPass(pass);
 		
 		String path = "/WsDfu/DFUBrowseData?ver_=1.1";
 		
@@ -407,7 +417,7 @@ public class FileInfoSoap {
 
 	
 	public static void main(String[] args){
-		FileInfoSoap c = new FileInfoSoap("10.239.227.6", 8010);
+		FileInfoSoap c = new FileInfoSoap("10.239.227.6", 8010,"","");
 		/*String[] test = c.fetchFiles();
 		System.out.println("You have " + test.length + " Files");
 		for (int i = 0; i<test.length; i++){

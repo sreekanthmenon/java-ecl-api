@@ -515,9 +515,13 @@ public class EclDirect {
                              InputStream is = es.ResultsSoapCall(this.getWuid(), resName);
                              ArrayList results = es.parseResults(is);
                              resName = resName.replace(" ", "_");
-                             createOutputFile(results,outputDir + "\\" + resName + ".csv",counter);
+                             String resFileName = outputDir + resName + ".csv";
+                             if (System.getProperty("os.name").startsWith("Windows")) {
+                            	 resFileName = outputDir + "\\" + resName + ".csv";
+                             }
+                             createOutputFile(results,resFileName,counter);
                              
-                             String[] fileInfo = {resName, outputDir, outputDir + "\\" + resName + ".csv"};
+                             String[] fileInfo = {resName, outputDir, resFileName};
                              files.add(fileInfo);
                              resultNames.add(resName);
                              counter++;
