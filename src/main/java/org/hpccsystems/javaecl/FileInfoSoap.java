@@ -26,7 +26,8 @@ public class FileInfoSoap {
 	private int serverPort;
 	private String user;
 	private String pass;
-	
+	private boolean fetchLogicalFiles = true;
+	private String numFilesToFetch = "1000";
 	public FileInfoSoap(String serverHost,int serverPort,String user, String pass){
 		this.serverHost = serverHost;
 		this.serverPort = serverPort;
@@ -49,9 +50,9 @@ public class FileInfoSoap {
 						"<FileType></FileType>" +
 						"<FileSizeFrom></FileSizeFrom>" +
 						"<FileSizeTo></FileSizeTo>" +
-						"<FirstN></FirstN>" +
+						"<FirstN>" + numFilesToFetch + "</FirstN>" +
 						"<FirstNType></FirstNType>" +
-						"<PageSize>1000000000000</PageSize>" +
+						"<PageSize>" + numFilesToFetch + "</PageSize>" +
 						"<PageStartFrom></PageStartFrom>" +
 						"<Sortby></Sortby>" +
 						"<Descending></Descending>" +
@@ -116,7 +117,9 @@ public class FileInfoSoap {
 	 * @returns String[]
 	 */
 	public String[] fetchFiles(){
-		
+		if(!fetchLogicalFiles){
+			return new String[0];
+		}
 		soap = new ECLSoap();
 		
 		soap.setHostname(serverHost);
@@ -158,11 +161,13 @@ public class FileInfoSoap {
 		String path = "/WsDfu/DFUDefFile?ver_=1.2";
 		
 		InputStream is = soap.doSoap(xml, path);
+	
 				
 		try{
 			return processFileMeta(is);
 		}catch(Exception e){
 			System.out.println(e);
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -175,7 +180,7 @@ public class FileInfoSoap {
         Document dom = db.parse(is);
 
         Element docElement = dom.getDocumentElement();
-
+        System.out.println(dom.getTextContent());
         NodeList dfuResponse = docElement.getElementsByTagName("DFUDefFileResponse");
         //DFUDefFileResponse
         //	defFile

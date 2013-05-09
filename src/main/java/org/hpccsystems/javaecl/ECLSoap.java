@@ -77,10 +77,18 @@ public class ECLSoap {
     private String SALTPath = "";
     private boolean includeSALT = false;
     private String saltLib = "";
-
+    private ArrayList<String[]> compileFlagsAL = new ArrayList();
 
     
-    public String getMaxReturn() {
+    public ArrayList getCompileFlagsAL() {
+		return compileFlagsAL;
+	}
+
+	public void setCompileFlagsAL(ArrayList compileFlagsAL) {
+		this.compileFlagsAL = compileFlagsAL;
+	}
+
+	public String getMaxReturn() {
 		return maxReturn;
 	}
 
@@ -291,11 +299,25 @@ public class ECLSoap {
             	paramsAL.add("-I");
             	paramsAL.add(this.saltLib);
             }
+            if(compileFlagsAL != null && compileFlagsAL.size() > 0){
+            	for(int i = 0; i<compileFlagsAL.size(); i++){
+            		if(compileFlagsAL.get(i).length == 2){
+            			if(!compileFlagsAL.get(i)[0].equals("")){
+            				paramsAL.add(compileFlagsAL.get(i)[0]);
+            			}
+            			if(!compileFlagsAL.get(i)[1].equals("")){
+            				paramsAL.add(compileFlagsAL.get(i)[1]);
+            			}
+            		}
+            	}
+            }
             paramsAL.add(inFilePath);
             String [] params = new String[paramsAL.size()];
             paramsAL.toArray(params);
             ProcessBuilder pb = new ProcessBuilder(params);
-            
+            System.out.println("----------Syntax Check-----------");
+            System.out.println("---------------------");
+            System.out.println(pb.command().toString());
            
             pb.redirectErrorStream(true); // merge stdout, stderr of process
             System.out.println(pb.command().toString());
@@ -1141,14 +1163,13 @@ public class ECLSoap {
             
             String c = eclccInstallDir;
             if (System.getProperty("os.name").startsWith("Windows")) {
-                // use eclcc.exe
-                        c += "eclcc.exe";
+                c += "eclcc.exe";
             }else{
-                        c += "eclcc";
+                c += "eclcc";
             }
             String paramSalt = "";
 
-            System.out.println("_________________________ECLCC_______________________________");
+           // System.out.println("_________________________ECLCC_______________________________");
             
             
             ArrayList<String> paramsAL = new ArrayList<String>();
@@ -1175,6 +1196,25 @@ public class ECLSoap {
             	paramsAL.add("-I");
             	paramsAL.add(this.saltLib);
             }
+            //System.out.println("Check for Custom Flags | ECLSoap ");
+           // System.out.println("compileFlagsAL size eclsoap: " + compileFlagsAL.size());
+            if(compileFlagsAL != null && compileFlagsAL.size() > 0){
+            	//System.out.println(" -- has Custom Flags | parsing for process builder -- ");
+            	for(int i = 0; i<compileFlagsAL.size(); i++){
+            		//System.out.println(" -- loop iteration " + i);
+            		if(compileFlagsAL.get(i).length == 2){
+            			//System.out.println(" -- -- has array of 2");
+            			if(!compileFlagsAL.get(i)[0].equals("")){
+            				//System.out.println(" -- -- -- Key: " + compileFlagsAL.get(i)[0]);
+            				paramsAL.add(compileFlagsAL.get(i)[0]);
+            			}
+            			if(!compileFlagsAL.get(i)[1].equals("")){
+            				//System.out.println(" -- -- -- Val: " + compileFlagsAL.get(i)[1]);
+            				paramsAL.add(compileFlagsAL.get(i)[1]);
+            			}
+            		}
+            	}
+            }
             //"-o", outFilePath, inFilePath
             paramsAL.add("-o");
             paramsAL.add(outFilePath);
@@ -1184,6 +1224,11 @@ public class ECLSoap {
             //String[] params = (String[]) paramsAL.toArray();
             ProcessBuilder pb = new ProcessBuilder(params);
             
+           // System.out.println("+++++++++++++++++++++");
+           // System.out.println("+++++++++++++++++++++");
+           // System.out.println("+++++++++++++++++++++");
+            System.out.println("++++++++++Compile ECLSOAP+++++++++++");
+            System.out.println("+++++++++++++++++++++");
             System.out.println(pb.command().toString());
             pb.redirectErrorStream(true); // merge stdout, stderr of process
 
@@ -1268,7 +1313,7 @@ public class ECLSoap {
                
                //c += logFile + "-E -v" + include + " -o " + outFilePath + " " + inFilePath;
                
-               System.out.println("_________________________ECLCC_______________________________");
+               //System.out.println("_________________________ECLCC_______________________________");
 
                ArrayList<String> al = new ArrayList<String>();
                al.add(c);
