@@ -501,6 +501,9 @@ public class EclDirect {
      
      public boolean writeResultsToFile(String outputDir) throws Exception{
     	 String slash = "\\";
+    	 if(this.maxReturn.equals("0")){
+    		 return true;
+    	 }
      	if(outputDir.contains("/") && !outputDir.contains("\\")){
      		slash = "/";
      		
@@ -538,7 +541,7 @@ public class EclDirect {
                              InputStream is = es.ResultsSoapCall(this.getWuid(), resName);
                              ArrayList results = es.parseResults(is);
                              resName = resName.replace(" ", "_");
-                             String resFileName = outputDir + resName + ".csv";
+                             String resFileName = outputDir + this.wuid + "_" + resName + ".csv";
                              //if (System.getProperty("os.name").startsWith("Windows")) {
                             //	 resFileName = outputDir + "\\" + resName + ".csv";
                              //}
@@ -548,6 +551,7 @@ public class EclDirect {
                              files.add(fileInfo);
                              resultNames.add(resName);
                              counter++;
+                             is.close();
                          }
                      }
                      
